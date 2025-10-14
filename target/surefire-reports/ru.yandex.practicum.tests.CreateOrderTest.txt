@@ -1,0 +1,18 @@
+-------------------------------------------------------------------------------
+Test set: ru.yandex.practicum.tests.CreateOrderTest
+-------------------------------------------------------------------------------
+Tests run: 4, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 9.563 s <<< FAILURE! - in ru.yandex.practicum.tests.CreateOrderTest
+shouldNotCreateOrderWithoutAuthorization(ru.yandex.practicum.tests.CreateOrderTest)  Time elapsed: 1.467 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <401> but was <200>.
+
+	at ru.yandex.practicum.tests.CreateOrderTest.shouldNotCreateOrderWithoutAuthorization(CreateOrderTest.java:90)
+
+shouldNotCreateOrderWithInvalidIngredients(ru.yandex.practicum.tests.CreateOrderTest)  Time elapsed: 1.34 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <500> but was <400>.
+
+	at ru.yandex.practicum.tests.CreateOrderTest.shouldNotCreateOrderWithInvalidIngredients(CreateOrderTest.java:75)
+

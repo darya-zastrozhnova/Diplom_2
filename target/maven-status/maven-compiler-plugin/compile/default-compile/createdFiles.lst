@@ -1,0 +1,6 @@
+ru\yandex\practicum\config\RestConfig.class
+ru\yandex\practicum\steps\OrderSteps.class
+ru\yandex\practicum\steps\UserSteps.class
+ru\yandex\practicum\model\DuplicateUser.class
+ru\yandex\practicum\model\User.class
+ru\yandex\practicum\model\Order.class
