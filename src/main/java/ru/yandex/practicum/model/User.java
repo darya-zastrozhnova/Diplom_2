@@ -12,7 +12,7 @@ public class User {
         return name;
     }
 
-    public void setName(String name) {
+    public void withName(String name) {
         this.name = name;
     }
 
@@ -20,7 +20,7 @@ public class User {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void withEmail(String email) {
         this.email = email;
     }
 
@@ -28,7 +28,7 @@ public class User {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void withPassword(String password) {
         this.password = password;
     }
 }

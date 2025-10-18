@@ -23,9 +23,9 @@ public class UserTests extends BaseTest {
     @Before
     public void setUp() {
         user = new User();
-        user.setPassword(RandomStringUtils.randomAlphabetic(12));
-        user.setEmail(RandomStringUtils.randomAlphanumeric(10) + "@example.com");
-        user.setName(RandomStringUtils.randomAlphabetic(12));
+        user.withPassword(RandomStringUtils.randomAlphabetic(12));
+        user.withEmail(RandomStringUtils.randomAlphanumeric(10) + "@example.com");
+        user.withName(RandomStringUtils.randomAlphabetic(12));
         duplicateUser = new DuplicateUser();
         duplicateUser.setPassword(user.getPassword());
         duplicateUser.setEmail(user.getEmail());
