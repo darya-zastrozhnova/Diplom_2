@@ -25,9 +25,9 @@ public class CreateOrderTest extends BaseTest {
     @Before
     public void setUp() {
         user = new User();
-        user.setPassword(RandomStringUtils.randomAlphabetic(12));
-        user.setEmail(RandomStringUtils.randomAlphanumeric(10) + "@example.com");
-        user.setName(RandomStringUtils.randomAlphabetic(12));
+        user.withPassword(RandomStringUtils.randomAlphabetic(12));
+        user.withEmail(RandomStringUtils.randomAlphanumeric(10) + "@example.com");
+        user.withName(RandomStringUtils.randomAlphabetic(12));
         userSteps
                 .createUser(user)
                 .statusCode(200)
@@ -92,7 +92,12 @@ public class CreateOrderTest extends BaseTest {
 
     @After
     public void tearDown() {
-        accessToken = userSteps.login(user).extract().path("accessToken");
+        if (accessToken == null) {
+            accessToken = userSteps.login(user).extract().path("accessToken");
+            if (accessToken == null) {
+                return;
+            }
+        }
         userSteps.deleteUser(accessToken);
     }
 }

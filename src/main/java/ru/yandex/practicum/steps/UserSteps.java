@@ -1,5 +1,6 @@
 package ru.yandex.practicum.steps;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
@@ -15,6 +16,7 @@ public class UserSteps {
 
     private Response response;
 
+    //создание пользователя
     @Step
     public ValidatableResponse createUser(User user) {
         response = given()
@@ -25,7 +27,7 @@ public class UserSteps {
                 .extract().response();
         return response.then();
     }
-
+//получение accessToken
     @Step
     public String extractAccessToken() {
         if (response == null) {
@@ -34,7 +36,7 @@ public class UserSteps {
         return response
                 .path("accessToken");
     }
-
+//получение refreshToken
     @Step
     public String extractRefreshToken() {
         if (response == null) {
@@ -43,7 +45,7 @@ public class UserSteps {
         return response
                 .path("refreshToken");
     }
-
+//создание пользователя, который уже зарегистрирован
     @Step
     public ValidatableResponse createUser(DuplicateUser user) {
         return given()
@@ -51,35 +53,22 @@ public class UserSteps {
                 .when()
                 .post(USER)
                 .then();
+//                .extract().response().then();
+//        return response.then();
     }
-
+//создание пользователя без обязательных полей
     @Step
-    public ValidatableResponse createUserWithoutEmail(DuplicateUser duplicateUser) {
+    public ValidatableResponse createUserWithoutRequiredFields(DuplicateUser duplicateUser) {
         return given()
                 .body(duplicateUser)
                 .when()
                 .post(USER)
                 .then();
+//                .extract().response().then();
+//        return response.then();
     }
 
-    @Step
-    public ValidatableResponse createUserWithoutPassword(DuplicateUser duplicateUser) {
-        return given()
-                .body(duplicateUser)
-                .when()
-                .post(USER)
-                .then();
-    }
-
-    @Step
-    public ValidatableResponse createUserWithoutName(DuplicateUser duplicateUser) {
-        return given()
-                .body(duplicateUser)
-                .when()
-                .post(USER)
-                .then();
-    }
-
+//вход под существующим пользователем
     @Step
     public ValidatableResponse login(User user) {
         return given()
@@ -88,9 +77,9 @@ public class UserSteps {
                 .post(LOGIN)
                 .then();
     }
-
+//вход с неверным паролем и неверным логином
     @Step
-    public ValidatableResponse wrongPassword(DuplicateUser duplicateUser) {
+    public ValidatableResponse wrongPasswordAndWrongLogin(DuplicateUser duplicateUser) {
         return given()
                 .body(duplicateUser)
                 .when()
@@ -98,17 +87,12 @@ public class UserSteps {
                 .then();
     }
 
-    @Step
-    public ValidatableResponse wrongLogin(DuplicateUser duplicateUser) {
-        return given()
-                .body(duplicateUser)
-                .when()
-                .post(LOGIN)
-                .then();
-    }
-
+//удаление пользователя
     @Step
     public ValidatableResponse deleteUser(String token) {
+        if (token == null) {
+            throw new IllegalArgumentException("Authorization token cannot be null");
+        }
         return given()
                 .header("Authorization", token)
                 .when()

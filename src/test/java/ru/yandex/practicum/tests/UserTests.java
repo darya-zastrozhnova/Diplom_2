@@ -42,8 +42,6 @@ public class UserTests extends BaseTest {
         createUserWithoutName.setEmail(RandomStringUtils.randomAlphanumeric(10) + "@example.com");
         createUserWithoutName.setPassword(RandomStringUtils.randomAlphabetic(12));
         createUserWithoutName.setName("");
-        userSteps
-                .createUser(user);
     }
 
     @Test
@@ -70,7 +68,7 @@ public class UserTests extends BaseTest {
     @Test
     public void shouldNotCreateUserWithoutEmail() {
         userSteps
-                .createUserWithoutEmail(createUserWithoutEmail)
+                .createUserWithoutRequiredFields(createUserWithoutEmail)
                 .statusCode(403)
                 .body("success", equalTo(false))
                 .body("message", equalTo("Email, password and name are required fields"));
@@ -79,7 +77,7 @@ public class UserTests extends BaseTest {
     @Test
     public void shouldNotCreateUserWithoutPassword() {
         userSteps
-                .createUserWithoutPassword(createUserWithoutPassword)
+                .createUserWithoutRequiredFields(createUserWithoutPassword)
                 .statusCode(403)
                 .body("success", equalTo(false))
                 .body("message", equalTo("Email, password and name are required fields"));
@@ -88,16 +86,20 @@ public class UserTests extends BaseTest {
     @Test
     public void shouldNotCreateUserWithoutName() {
         userSteps
-                .createUserWithoutName(createUserWithoutName)
+                .createUserWithoutRequiredFields(createUserWithoutName)
                 .statusCode(403)
                 .body("success", equalTo(false))
                 .body("message", equalTo("Email, password and name are required fields"));
     }
 
-
     @After
     public void tearDown() {
-        accessToken = userSteps.login(user).extract().path("accessToken");
+        if (accessToken == null) {
+            accessToken = userSteps.login(user).extract().path("accessToken");
+            if (accessToken == null) {
+                return;
+            }
+        }
         userSteps.deleteUser(accessToken);
     }
 }
