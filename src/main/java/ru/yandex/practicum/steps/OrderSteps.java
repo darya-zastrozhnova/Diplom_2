@@ -10,8 +10,8 @@ import static io.restassured.RestAssured.given;
 public class OrderSteps {
     public static final String ORDER = "/api/orders";
 
-    //создание заказа с авторизацией
-    @Step
+
+    @Step("создание заказа с авторизацией")
     public ValidatableResponse createOrder(String token, Order order) {
         RequestSpecification requestSpecification = given();
         if (token != null) {
@@ -22,8 +22,8 @@ public class OrderSteps {
                 .post(ORDER)
                 .then();
     }
-    //получение ингредиентов
-    @Step
+
+    @Step("получение ингредиентов")
     public static ValidatableResponse getIngredients() {
         return given()
                 .when()

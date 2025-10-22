@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
-import ru.yandex.practicum.model.DuplicateUser;
 import ru.yandex.practicum.model.User;
 
 import static io.restassured.RestAssured.given;
@@ -16,8 +15,8 @@ public class UserSteps {
 
     private Response response;
 
-    //создание пользователя
-    @Step
+
+    @Step("создание пользователя")
     public ValidatableResponse createUser(User user) {
         response = given()
                 .body(user)
@@ -27,8 +26,8 @@ public class UserSteps {
                 .extract().response();
         return response.then();
     }
-//получение accessToken
-    @Step
+
+    @Step("получение accessToken")
     public String extractAccessToken() {
         if (response == null) {
             throw new IllegalStateException("Response is not initialized. Did you call createUser or login?");
@@ -36,8 +35,8 @@ public class UserSteps {
         return response
                 .path("accessToken");
     }
-//получение refreshToken
-    @Step
+
+    @Step("получение refreshToken")
     public String extractRefreshToken() {
         if (response == null) {
             throw new IllegalStateException("Response is not initialized. Did you call createUser or login?");
@@ -45,9 +44,20 @@ public class UserSteps {
         return response
                 .path("refreshToken");
     }
-//создание пользователя, который уже зарегистрирован
-    @Step
-    public ValidatableResponse createUser(DuplicateUser user) {
+
+//    @Step("создание пользователя, который уже зарегистрирован")
+//    public ValidatableResponse createUser(User user) {
+//        return given()
+//                .body(user)
+//                .when()
+//                .post(USER)
+//                .then();
+//                .extract().response().then();
+//        return response.then();
+//    }
+
+    @Step("создание пользователя без обязательных полей")
+    public ValidatableResponse createUserWithoutRequiredFields(User user) {
         return given()
                 .body(user)
                 .when()
@@ -56,20 +66,9 @@ public class UserSteps {
 //                .extract().response().then();
 //        return response.then();
     }
-//создание пользователя без обязательных полей
-    @Step
-    public ValidatableResponse createUserWithoutRequiredFields(DuplicateUser duplicateUser) {
-        return given()
-                .body(duplicateUser)
-                .when()
-                .post(USER)
-                .then();
-//                .extract().response().then();
-//        return response.then();
-    }
 
-//вход под существующим пользователем
-    @Step
+
+    @Step("вход под существующем пользователем")
     public ValidatableResponse login(User user) {
         return given()
                 .body(user)
@@ -77,18 +76,18 @@ public class UserSteps {
                 .post(LOGIN)
                 .then();
     }
-//вход с неверным паролем и неверным логином
-    @Step
-    public ValidatableResponse wrongPasswordAndWrongLogin(DuplicateUser duplicateUser) {
+
+    @Step("вход с неверным паролем и неверным логином")
+    public ValidatableResponse wrongPasswordAndWrongLogin(User user) {
         return given()
-                .body(duplicateUser)
+                .body(user)
                 .when()
                 .post(LOGIN)
                 .then();
     }
 
-//удаление пользователя
-    @Step
+
+    @Step("удаление пользователя")
     public ValidatableResponse deleteUser(String token) {
         if (token == null) {
             throw new IllegalArgumentException("Authorization token cannot be null");

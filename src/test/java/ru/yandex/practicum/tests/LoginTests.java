@@ -4,7 +4,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import ru.yandex.practicum.model.DuplicateUser;
 import ru.yandex.practicum.model.User;
 import ru.yandex.practicum.steps.UserSteps;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -16,8 +15,8 @@ public class LoginTests extends BaseTest {
     private User user;
     private String accessToken;
     private String refreshToken;
-    private DuplicateUser wrongPassword;
-    private DuplicateUser wrongLogin;
+    private User wrongPassword;
+    private User wrongLogin;
 
 
     @Before
@@ -33,12 +32,12 @@ public class LoginTests extends BaseTest {
 
         accessToken = userSteps.extractAccessToken();
         refreshToken = userSteps.extractRefreshToken();
-        wrongPassword = new DuplicateUser();
-        wrongPassword.setEmail(user.getEmail());
-        wrongPassword.setPassword("wrongPassword");
-        wrongLogin = new DuplicateUser();
-        wrongLogin.setEmail("wrongLogin");
-        wrongLogin.setPassword(user.getPassword());
+        wrongPassword = new User();
+        wrongPassword.withEmail(user.getEmail());
+        wrongPassword.withPassword("wrongPassword");
+        wrongLogin = new User();
+        wrongLogin.withEmail("wrongLogin");
+        wrongLogin.withPassword(user.getPassword());
     }
 
     @Test
